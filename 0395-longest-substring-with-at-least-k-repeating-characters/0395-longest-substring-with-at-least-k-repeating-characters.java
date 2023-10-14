@@ -1,12 +1,12 @@
 public class Solution {
     public int longestSubstring(String s, int k) {
 
-        int freq[] = new int[26];
+      
         int max = 0;
         
         for(int currUnique = 1; currUnique <= 26; currUnique++) {
 
-            Arrays.fill(freq, 0);
+              int freq[] = new int[26];
             int unique = 0, atLeastK = 0, start = 0, end = 0;
 
             while(end < s.length()) {
