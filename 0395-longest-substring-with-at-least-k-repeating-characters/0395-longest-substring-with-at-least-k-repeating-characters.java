@@ -4,11 +4,11 @@ public class Solution {
         int freq[] = new int[27];
         int max = 0;
         
-        for(int currUnique = 1; currUnique <= 26; currUnique++) {
+        for(int currUnique = 1; currUnique <= getMaxUniqueLetters(s); currUnique++) {
             
 
             Arrays.fill(freq, 0);
-            
+
             int unique = 0;
         
             int atLeastK = 0;
@@ -48,5 +48,18 @@ public class Solution {
             }
         }
         return max;
+    }
+
+       // get the maximum number of unique letters in the string s
+    int getMaxUniqueLetters(String s) {
+        boolean map[] = new boolean[26];
+        int maxUnique = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!map[s.charAt(i) - 'a']) {
+                maxUnique++;
+                map[s.charAt(i) - 'a'] = true;
+            }
+        }
+        return maxUnique;
     }
 }
