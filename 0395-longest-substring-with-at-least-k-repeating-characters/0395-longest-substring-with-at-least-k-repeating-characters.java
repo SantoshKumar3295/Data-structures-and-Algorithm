@@ -1,22 +1,21 @@
 public class Solution {
     public int longestSubstring(String s, int k) {
 
+        int freq[] = new int[27];
         int max = 0;
         
-
         for(int currUnique = 1; currUnique <= 26; currUnique++) {
+            
 
+            Arrays.fill(freq, 0);
+            
             int unique = 0;
-            int freq[] = new int[27];
+        
             int atLeastK = 0;
 
             int start = 0, end = 0;
 
             while(end < s.length()) {
-
-                if(atLeastK == unique) {
-                    max = Math.max(max, end-start);
-                }
 
                 if(unique <= currUnique) {
 
