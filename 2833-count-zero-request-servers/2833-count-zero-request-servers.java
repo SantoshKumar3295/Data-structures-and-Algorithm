@@ -1,62 +1,65 @@
-import java.util.*;
-
 class Solution {
-    public int[] countServers(int n, int[][] servers, int x, int[] queries) {
-        int m = servers.length;
-        List<int[]> serversList = new ArrayList<>();
+    public int[] countServers(int n, int[][] logs, int x, int[] queries) {
         
-        // Convert servers array to a list of pairs: [time, serverId]
-        for (int[] server : servers) {
-            serversList.add(new int[]{server[1], server[0]});
-        }
+        Map<Integer, Integer> qm = new HashMap();
+
+        for(int i = 0; i < queries.length; i++) qm.put(queries[i],i);
+
+        Arrays.sort(logs, (a,b) -> a[1]-b[1]);
+
+        //System.out.println(Arrays.toString(queries));
+
+        Arrays.sort(queries);
         
-        // Sort serversList based on time
-        Collections.sort(serversList, (a, b) -> a[0] - b[0]);
+        int l = 0;
+        // for(int[]log : logs) {
+        //     System.out.println(l+" "+Arrays.toString(log));
+        //     l++;
+        // }
 
-        int q = queries.length;
-        Map<Integer, Integer> serverMap = new HashMap<>();
+      
 
-        int[] result = new int[q];
-        List<int[]> queryTimes = new ArrayList<>();
-        
-        // Convert queries array to a list of pairs: [queryTime, index]
-        for (int i = 0; i < q; i++) {
-            queryTimes.add(new int[]{queries[i], i});
-        }
-        
-        // Sort queryTimes based on queryTime
-        Collections.sort(queryTimes, (a, b) -> a[0] - b[0]);
+        int []result = new int[queries.length];
 
-        int startIdx = 0; // Start of the window
-        int endIdx = 0;   // End of the window
-        
-        for (int[] queryTime : queryTimes) {
-            int curTime = queryTime[0];
-            int queryIndex = queryTime[1];
+        Arrays.fill(result, n);
 
-            int startTime = Math.max(0, curTime - x);
-            int endTime = curTime;
+        int q = 0;
+        int right = 0, left = 0;
 
-            // Move endIdx until the time is not greater than endTime
-            while (endIdx < m && serversList.get(endIdx)[0] <= endTime) {
-                int serverId = serversList.get(endIdx)[1];
-                serverMap.put(serverId, serverMap.getOrDefault(serverId, 0) + 1);
-                endIdx++;
-            }
+        Map<Integer,Integer> set = new HashMap();
 
-            // Move startIdx until the time is not greater than or equal to startTime
-            while (startIdx < m && serversList.get(startIdx)[0] < startTime) {
-                int serverId = serversList.get(startIdx)[1];
-                if (serverMap.getOrDefault(serverId, 0) == 1) {
-                    serverMap.remove(serverId);
+        while(q< queries.length && left < logs.length) {
+
+           // System.out.println(left+" "+right+" "+qm.get(queries[q])+" "+set+" ");
+
+            if(q < queries.length && logs[left][1] >= queries[q]-x) {
+                if(right == logs.length) {
+                    set.put(logs[right-1][0], set.getOrDefault(logs[right-1][0],0)+1);
                 } else {
-                    serverMap.put(serverId, serverMap.get(serverId) - 1);
+                    while(right < logs.length && logs[right][1] <= queries[q]) {
+                        set.put(logs[right][0], set.getOrDefault(logs[right][0],0)+1);
+                        right++;
+                    }
                 }
-                startIdx++;
-            }
+                result[qm.get(queries[q])] = n-set.size();
+                q++;
+            } else {
+                
+                if(set.containsKey(logs[left][0])) {
+                    int curr = set.get(logs[left][0]);
+                    if(curr == 1) {
+                        set.remove(logs[left][0]);
+                    } else {
+                        set.put(logs[left][0], curr-1);
+                    }
+                }
+                
+                left++;
 
-            // Calculate the result for this query
-            result[queryIndex] = n - serverMap.size();
+                if(left > right) right = left;
+            }
+            
+            
         }
 
         return result;
