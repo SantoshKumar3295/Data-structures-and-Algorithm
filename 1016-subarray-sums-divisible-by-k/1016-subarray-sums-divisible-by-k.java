@@ -10,9 +10,7 @@ class Solution {
 
             sum += nums[i];
 
-            int rem = sum % k;
-
-            if(rem < 0) rem += k;
+            int rem = Math.floorMod(sum, k);
 
             if(map.containsKey(rem)) {
                 count += map.get(rem);
