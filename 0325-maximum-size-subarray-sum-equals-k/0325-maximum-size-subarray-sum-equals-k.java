@@ -15,8 +15,6 @@ class Solution {
 
             if(map.containsKey(sum-k)) {
                 max = Math.max(max, i-map.get(sum-k));
-            } else { 
-              
             }
 
             if(!map.containsKey(sum))
