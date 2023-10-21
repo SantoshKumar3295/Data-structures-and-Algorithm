@@ -3,7 +3,7 @@ class Solution {
 
         int n = customers.length()    ;
 
-        int [] suffixSum = new int [customers.length()];
+        int [] suffixSum = new int [customers.length()+1];
 
         suffixSum[n-1] = customers.charAt(n-1) == 'Y' ? 1 : 0;
 
@@ -16,15 +16,17 @@ class Solution {
         int minPenality = Integer.MAX_VALUE;
 
         for(int i = 0; i < customers.length(); i++) {
+            
+            int type = customers.charAt(i) == 'Y' ? 1 : 0;
 
-            int curr = (prefixSum+(customers.charAt(i) == 'Y' ? 1 : 0))  + (i+1 == n ? 0 : suffixSum[i+1]);
+            int curr = (prefixSum+type) + suffixSum[i+1];
 
             if(curr < minPenality) {
                 minPenality = curr;
                 result = i;
             }
 
-            prefixSum += customers.charAt(i) == 'Y' ? 0 : 1;
+            prefixSum += 1-type;;
         }
 
 
