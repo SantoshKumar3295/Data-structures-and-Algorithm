@@ -10,7 +10,7 @@ public class Solution {
             frequencies.add(entry.getValue());
         }
 
-        Collections.sort(frequencies);
+        //Collections.sort(frequencies);
 
         int minGroups = nums.length;
         for (int i = frequencies.get(0); i >= 1; --i) {
