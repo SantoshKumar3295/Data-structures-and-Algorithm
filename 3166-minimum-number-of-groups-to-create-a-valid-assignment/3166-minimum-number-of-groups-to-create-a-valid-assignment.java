@@ -1,52 +1,52 @@
 class Solution {
 
     public int minGroupsForValidAssignment(int[] nums) {
-        HashMap<Integer, Integer> mp = new HashMap<>();
+        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
         for (int num : nums) {
-            mp.put(num, mp.getOrDefault(num, 0) + 1);
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
         }
 
-        int maxi = 0;
-        int n = nums.length;
+        int maxFrequency = 0;
+        int totalNumbers = nums.length;
 
-        HashMap<Integer, Integer> u = new HashMap<>();
-        for (int i : nums) {
-            u.put(i, u.getOrDefault(i, 0) + 1);
-            maxi = Math.max(maxi, u.get(i));
+        HashMap<Integer, Integer> uniqueFrequencyMap = new HashMap<>();
+        for (int num : nums) {
+            uniqueFrequencyMap.put(num, uniqueFrequencyMap.getOrDefault(num, 0) + 1);
+            maxFrequency = Math.max(maxFrequency, uniqueFrequencyMap.get(num));
         }
 
-        for (int i = maxi; i >= 1; i--) {
-            if (posi(i, u)) {
-                int res = 0;
-                for (Map.Entry<Integer, Integer> entry : u.entrySet()) {
-                    int curr = entry.getKey();
-                    int c = entry.getValue();
+        for (int i = maxFrequency; i >= 1; i--) {
+            if (isPossible(i, uniqueFrequencyMap)) {
+                int groups = 0;
+                for (Map.Entry<Integer, Integer> entry : uniqueFrequencyMap.entrySet()) {
+                    int currentNumber = entry.getKey();
+                    int frequency = entry.getValue();
 
-                    int left = c % i;
+                    int leftOver = frequency % i;
 
-                    res = res + (c / i);
-                    if (left > 0) res++;
+                    groups += (frequency / i);
+                    if (leftOver > 0) groups++;
                 }
-                return res;
+                return groups;
             }
         }
         return -1;
     }
 
-    public static boolean posi(int x, HashMap<Integer, Integer> u) {
-        for (Map.Entry<Integer, Integer> entry : u.entrySet()) {
-            int curr = entry.getKey();
-            int cnt = entry.getValue();
+    public boolean isPossible(int x, HashMap<Integer, Integer> uniqueFrequencyMap) {
+        for (Map.Entry<Integer, Integer> entry : uniqueFrequencyMap.entrySet()) {
+            int currentNumber = entry.getKey();
+            int frequency = entry.getValue();
 
-            int left = cnt % x;
-            int tt = cnt / x;
+            int leftOver = frequency % x;
+            int times = frequency / x;
 
-            if (left < x - 1) {
-                int req = (x - 1) - left;
-                if (tt >= req) left = x - 1;
+            if (leftOver < x - 1) {
+                int required = (x - 1) - leftOver;
+                if (times >= required) leftOver = x - 1;
             }
 
-            if (left > 0 && left < x - 1) return false;
+            if (leftOver > 0 && leftOver < x - 1) return false;
         }
         return true;
     }
