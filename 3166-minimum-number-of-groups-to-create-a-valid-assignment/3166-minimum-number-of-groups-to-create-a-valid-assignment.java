@@ -38,7 +38,7 @@ public class Solution {
                 
                 excess = (quotient - remainder) / (i + 1);
                 
-                if(excess > 1 && remainder > 1) break;
+                if(excess > 1 && remainder > 0) break;
 
                 totalGroups += quotient - excess;
 
