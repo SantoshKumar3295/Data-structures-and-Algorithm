@@ -33,15 +33,18 @@ public class Solution {
                     break;
                 }
 
-                final int excess = (quotient - remainder) / (i + 1);
+                int excess = 0;
+
                 
-               
+                excess = (quotient - remainder) / (i + 1);
+                
+                if(excess > 1 && remainder > 1) break;
 
                 totalGroups += quotient - excess;
 
                  
-                //System.out.println("group : "+i +", freq : "+ frequency+", q : "
-                //    +quotient+", r :"+remainder+", excess : "+excess+", total : "+totalGroups);
+                System.out.println("group : "+i +", freq : "+ frequency+", q : "
+                    +quotient+", r :"+remainder+", excess : "+excess+", total : "+totalGroups);
             }
 
             if (isValid) {
