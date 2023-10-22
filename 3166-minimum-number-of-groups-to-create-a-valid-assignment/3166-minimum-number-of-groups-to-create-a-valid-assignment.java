@@ -28,18 +28,24 @@ public class Solution {
 
                 
                 if (remainder > quotient) {
-                    System.out.println("group : "+i +", freq : "+ frequency+", q : "+quotient+", r :"+remainder);
+                    //System.out.println("group : "+i +", freq : "+ frequency+", q : "+quotient+", r :"+remainder);
                     isValid = false;
-                    totalGroups = 0;
                     break;
                 }
 
                 final int excess = (quotient - remainder) / (i + 1);
+                
+               
+
                 totalGroups += quotient - excess;
+
+                 
+                //System.out.println("group : "+i +", freq : "+ frequency+", q : "
+                //    +quotient+", r :"+remainder+", excess : "+excess+", total : "+totalGroups);
             }
 
             if (isValid) {
-                minGroups = Math.min(minGroups, totalGroups);
+                return totalGroups;
             }
         }
 
