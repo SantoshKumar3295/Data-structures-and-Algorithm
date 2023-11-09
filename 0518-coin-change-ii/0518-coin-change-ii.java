@@ -18,8 +18,6 @@ class Solution {
 
         if(pos >= coins.length) return 0;
 
-        if(amount < 0) return 0;
-
         if(memo[pos][amount] != null) return memo[pos][amount];
 
         if(coins[pos] > amount) return memo[pos][amount] = rec(pos+1, amount);
