@@ -18,9 +18,9 @@ class Solution {
 
         if(pos >= coins.length) return 0;
 
-        if(memo[pos][amount] != null) return memo[pos][amount];
+        if(amount < 0) return 0;
 
-        if(coins[pos] > amount) return memo[pos][amount] = rec(pos+1, amount);
+        if(memo[pos][amount] != null) return memo[pos][amount];
 
         int total = rec(pos, amount-coins[pos]) + rec(pos+1, amount);
 
