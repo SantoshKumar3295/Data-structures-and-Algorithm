@@ -10,9 +10,9 @@ class Solution {
         return dfs(0, k);
     }
 
-    private int dfs(int pos, int leftChilds) {
+    private int dfs(int pos, int remChilds) {
 
-        if(cookies.length - pos < leftChilds) 
+        if(cookies.length - pos < remChilds) 
             return Integer.MAX_VALUE;
 
         if(pos >= cookies.length) {
@@ -31,15 +31,15 @@ class Solution {
 
         for(int i = 0; i < dist.length; i++) {
             
-            leftChilds -= dist[i] == 0 ? 1 : 0;
+            remChilds -= dist[i] == 0 ? 1 : 0;
 
             dist[i] += cookies[pos];
 
-            min = Math.min(min, dfs(pos+1, leftChilds));
+            min = Math.min(min, dfs(pos+1, remChilds));
 
             dist[i] -= cookies[pos];
 
-            leftChilds += dist[i] == 0 ? 1 : 0;
+            remChilds += dist[i] == 0 ? 1 : 0;
 
         }
 
