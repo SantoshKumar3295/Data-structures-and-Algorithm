@@ -7,11 +7,13 @@ class Solution {
         this.cookies = cookies;
         dist = new int[k];
 
-        return dfs(0);
+        return dfs(0, k);
     }
 
-    private int dfs(int pos) {
+    private int dfs(int pos, int leftChilds) {
 
+        if(cookies.length - pos < leftChilds) 
+            return Integer.MAX_VALUE;
 
         if(pos >= cookies.length) {
 
@@ -28,13 +30,16 @@ class Solution {
 
 
         for(int i = 0; i < dist.length; i++) {
-
+            
+            leftChilds -= dist[i] == 0 ? 1 : 0;
 
             dist[i] += cookies[pos];
 
-            min = Math.min(min, dfs(pos+1));
+            min = Math.min(min, dfs(pos+1, leftChilds));
 
             dist[i] -= cookies[pos];
+
+            leftChilds += dist[i] == 0 ? 1 : 0;
 
         }
 
