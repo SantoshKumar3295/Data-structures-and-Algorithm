@@ -5,7 +5,7 @@ class Solution {
 
     public double soupServings(int n) {
 
-        if(n > 5000) return 1;
+        if(n > 6000) return 1;
         
         memo = new double[n+1][n+1];
 
